@@ -112,7 +112,8 @@ class ActiveQuery extends YiiActiveQuery {
     public function prepare($builder)    {
         if (! $this->_skipPrep) {   // skip in case of queryScalar; it's not needed, and we get an SQL error (duplicate column names)
             if (empty($this->select))   {
-                $this->select('*');
+                list(, $alias) = $this->getTableNameAndAlias();
+                $this->select(["$alias.*"]);
                 $this->allColumns();
             }
             else   {
